@@ -1,14 +1,17 @@
 import pandas as pd
 import numpy as np
 import re
-from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.text import Tokenizer,tokenizer_from_json
 from keras.preprocessing.sequence import pad_sequences
 import pickle
+import json
 
 
 
-with open('static\tokenizer.pkl','rb') as f:
-    tokenizer=pickle.load(f)
+with open('static\token.json') as f:
+    data = json.load(f)
+    tokenizer = tokenizer_from_json(data)
+    
 
 
 
