@@ -3,6 +3,7 @@ import re
 import requests
 import csv
 import pandas as pd
+import time
 
 
 def flipkart(search_query):
@@ -15,11 +16,11 @@ def flipkart(search_query):
         return "error"
 
 
-def get_product_links(search_query):
+def get_product_details(search_query):
     search_query='%20'.join(search_query.split())
     response=flipkart(search_query)
     page=soup(response.content,'html.parser')  
-                                                                                 #get product links//call this
+                                                                                 #get product links and details based on query//call this
     links=[]
     for a in page.find_all('a',{'class':"_1fQZEK"},limit=5):
         links.append(a['href'])
@@ -31,7 +32,7 @@ def get_product_links(search_query):
     names=[]
     for a in page.find_all('div',{'class':"_4rR01T"},limit=5):                                  # get product name
         names.append(a.text)
-    
+    print(len(links),len(imgs),len(names))
     product_details=[]
     for i in range(5):
         temp={}
@@ -45,34 +46,38 @@ def get_product_links(search_query):
     return product_details                                                        # list of product details
 
 
-def get_reviews(single_product_details):
-    
-    for i in range(1,2):
+def get_reviews(single_product_details):                      #pass product detail dict
+    rlist=[]
+    for i in range(1,5):
         link='https://www.flipkart.com'+single_product_details['link'].split('FLIPKART')[0]+"FLIPKART&page="+str(i)
+        time.sleep(.250)
         print(link)
         result=requests.get(link)
         
-        review_page=soup(result.content,'html.parser')                                       #returns a dic containin details along with reviews
+        review_page=soup(result.content,'html.parser')                                       #returns a dic containing details along with reviews
         
 
         review_list=review_page.find_all('div',attrs={'class':"t-ZTKy"})
         
-        rlist=[]
+        
         for r in review_list:
             rlist.append(r.find('div').find('div').text)
 
         
-        avg_rating=review_page.find('div',{'class':"_3LWZlK"}).text
+    avg_rating=review_page.find('div',{'class':"_3LWZlK"}).text
 
-        single_product_details['avg_rating']=avg_rating
-        single_product_details['rlist']=rlist
+    single_product_details['avg_rating']=avg_rating
+    single_product_details['rlist']=rlist
         
                                                                      
     return single_product_details
 
 
 
+    
 
+
+    
 
 
 
