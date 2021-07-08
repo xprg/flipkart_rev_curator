@@ -1,0 +1,12 @@
+{% extends 'boilerplate.html' %}
+
+{% block content %}
+
+{% for r in review_sentiment %}
+<p> review :{{r[0]}}</p>
+<p>sentiment : {{r[1]}}</p>
+
+{% endfor%}
+
+
+{% endblock %}

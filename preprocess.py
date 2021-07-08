@@ -1,16 +1,14 @@
-import pandas as pd
-import numpy as np
 import re
-from keras.preprocessing.text import Tokenizer,tokenizer_from_json
+from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 import pickle
-import json
 
 
 
-with open('static\token.json') as f:
-    data = json.load(f)
-    tokenizer = tokenizer_from_json(data)
+
+with open('static/tokenizer.pkl','rb') as f:
+    tokenizer=pickle.load(f)
+
     
 
 
@@ -55,17 +53,17 @@ def preprocess(review):
     
     reviews=[]
     for i in range(len(review)):
-        if len(review[i])<75:
+        if len(review[i].split())<75:
             reviews.append(review[i])
     
 
     tokenized_reviews=tokenizer.texts_to_sequences(reviews)  
     tokenized_reviews=pad_sequences(tokenized_reviews,maxlen=50,padding='post')
-    print('running')
+    
     return tokenized_reviews
 
 
     
-print(preprocess(["i hate this product"]))
+
 
     

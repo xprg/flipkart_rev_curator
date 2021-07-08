@@ -32,6 +32,11 @@ def get_product_details(search_query):
     names=[]
     for a in page.find_all('div',{'class':"_4rR01T"},limit=5):                                  # get product name
         names.append(a.text)
+    
+    rating=[]
+    for a in page.find_all('div',{'class':'_3LWZlK'},limit=5):
+        rating.append(a.text)
+
     print(len(links),len(imgs),len(names))
     product_details=[]
     for i in range(5):
@@ -39,6 +44,7 @@ def get_product_details(search_query):
         temp['link']=links[i]
         temp['img']=imgs[i]
         temp['name']=names[i]
+        temp['rating']=rating[i]
         product_details.append(temp)
     
 
@@ -47,27 +53,26 @@ def get_product_details(search_query):
 
 
 def get_reviews(single_product_details):                      #pass product detail dict
-    rlist=[]
+    review_list=[]
     for i in range(1,5):
-        link='https://www.flipkart.com'+single_product_details['link'].split('FLIPKART')[0]+"FLIPKART&page="+str(i)
-        time.sleep(.250)
+        link='https://www.flipkart.com'+single_product_details['link'].split('/p/')[0]+'/product-reviews/'+single_product_details['link'].split('/p/')[1].split('FLIPKART')[0]+"FLIPKART&page="+str(i)
+        time.sleep(.200)
         print(link)
         result=requests.get(link)
         
         review_page=soup(result.content,'html.parser')                                       #returns a dic containing details along with reviews
         
 
-        review_list=review_page.find_all('div',attrs={'class':"t-ZTKy"})
+        r_list=review_page.find_all('div',attrs={'class':"t-ZTKy"})
         
         
-        for r in review_list:
-            rlist.append(r.find('div').find('div').text)
+        for r in r_list:
+            review_list.append(r.find('div').find('div').text)
 
         
-    avg_rating=review_page.find('div',{'class':"_3LWZlK"}).text
+    
 
-    single_product_details['avg_rating']=avg_rating
-    single_product_details['rlist']=rlist
+    single_product_details['review_list']=review_list
         
                                                                      
     return single_product_details
