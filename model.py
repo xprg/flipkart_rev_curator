@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import re
 from keras.layers import LSTM,Dense,Dropout,Input,Embedding
+import pickle
 
 from keras.models import Model
 from keras.preprocessing.text import Tokenizer
@@ -37,12 +38,18 @@ model=Model(inputs=input,outputs=output)
 model.compile(optimizer='adam',loss='binary_crossentropy',metrics=['accuracy'])
 model.load_weights("static\lstm1.h5")
 
+with open('static/nb_classifier.pkl','rb') as f:
+    nb=pickle.load(f)
 
 
-def predict(reviews):
+def predict(tokenized_reviews,cv_reviews):
 
-    y_pred=model.predict(reviews)
-    sentiment=np.argmax(y_pred,axis=1)
+    y_pred=model.predict(tokenized_reviews)
+    sent_1=np.argmax(y_pred,axis=1)
+
+    sent_2=nb.predict(cv_reviews)
+
+    sentiment=np.logical_and(sent_1,sent_2)
 
     return sentiment
 

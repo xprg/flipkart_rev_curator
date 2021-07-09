@@ -2,6 +2,7 @@ import re
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 import pickle
+import copy
 
 
 
@@ -9,7 +10,9 @@ import pickle
 with open('static/tokenizer.pkl','rb') as f:
     tokenizer=pickle.load(f)
 
-    
+with open("static/count_vectorizer.pkl",'rb') as f:
+    cv=pickle.load(f)
+   
 
 
 
@@ -45,6 +48,7 @@ def clean_text(sentence):
 
 
 def preprocess(review):
+    real_reviews=copy.deepcopy(review)
     for i in range(len(review)):
         review[i]=" ".join([word for word in review[i].split() if dict_stopwords.get(word,False)==False])     #stopword removal
     
@@ -52,15 +56,19 @@ def preprocess(review):
         review[i]=clean_text(review[i])
     
     reviews=[]
+    real_reviews_return=[]
     for i in range(len(review)):
         if len(review[i].split())<75:
+
             reviews.append(review[i])
+            real_reviews_return.append(real_reviews[i])
     
+    cv_reviews=cv.transform(reviews)
 
     tokenized_reviews=tokenizer.texts_to_sequences(reviews)  
     tokenized_reviews=pad_sequences(tokenized_reviews,maxlen=50,padding='post')
     
-    return tokenized_reviews
+    return tokenized_reviews,cv_reviews,real_reviews_return
 
 
     

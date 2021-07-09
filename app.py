@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from types import MethodType
-from flask import Flask,request,render_template,redirect
+from flask import Flask,request,render_template
 from requests.api import post
 import model
 import preprocess
@@ -26,7 +26,11 @@ curr_product_list=0
 
 def get_product_list():
     query=str(request.form['query'])
-    product_list=scrape.get_product_details(query)
+    product_list,err_msg=scrape.get_product_details(query)
+
+    if err_msg!="":
+        return "Oops Error : "+err_msg
+
     global curr_product_list
     curr_product_list=product_list
         

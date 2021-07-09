@@ -37,8 +37,14 @@ def get_product_details(search_query):
     for a in page.find_all('div',{'class':'_3LWZlK'},limit=5):
         rating.append(a.text)
 
-    print(len(links),len(imgs),len(names))
     product_details=[]
+
+    error_msg=""
+    if len(links)+len(imgs)+len(names)<15:
+        error_msg="phone too old..  please navigate back and do another search"
+        return product_details,error_msg
+
+
     for i in range(5):
         temp={}
         temp['link']=links[i]
@@ -49,7 +55,7 @@ def get_product_details(search_query):
     
 
     
-    return product_details                                                        # list of product details
+    return product_details,error_msg                                                   # list of product details
 
 
 def get_reviews(single_product_details):                      #pass product detail dict

@@ -6,13 +6,15 @@ import preprocess
 
 
 def create_dataframe(reviews):
-    tokenized_reviews=preprocess.preprocess(reviews)
-    print(tokenized_reviews)
-    sentiment=model.predict(tokenized_reviews)
+    
+    tokenized_reviews,cv_reviews,real_reviews=preprocess.preprocess(reviews)
+    
+    sentiment=model.predict(tokenized_reviews,cv_reviews)
+    
     print(len(sentiment))
     
 
-    dic={'body':reviews,'sentiment':sentiment,'default':[x for x in range(len(reviews))]}          
+    dic={'body':real_reviews,'sentiment':sentiment,'default':[x for x in range(len(reviews))]}          
     df=pd.DataFrame(dic) 
 
     tfidf=TfidfVectorizer()
@@ -25,14 +27,14 @@ def create_dataframe(reviews):
     
 
     td_matrix=td_matrix.toarray()
-    special=['performance','camera','display','battery','value']
+    special=['performance','camera','display','battery','cost']
     
 
     for word in special:
-        index=word_idx[word]
-        tf_idf_scores=td_matrix[:,index]
-
-        df[word]=tf_idf_scores
+        if word_idx.get(word) is not None:
+            index=word_idx[word]
+            tf_idf_scores=td_matrix[:,index]
+            df[word]=tf_idf_scores
     
 
     return df
@@ -40,9 +42,13 @@ def create_dataframe(reviews):
 
 def sort_according_to(criteria,df):
     if criteria!='default':
-        ans=df.sort_values(by=criteria,ascending=False)
+        if(criteria in list(df.columns)):
+            ans=df.sort_values(by=criteria,ascending=False)
+        
+        else:
+            ans=df
     
-    return list(df[['body','sentiment']])
+    return list(ans[['body','sentiment']])
                                                                     
         
     
