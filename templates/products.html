@@ -3,17 +3,21 @@
 {% block content %}
 <h2 class='mb-3 p-3 bg-primary text-white text-center'>Your top 5 products</h2>
 <div class='container'>
+
+    <form action='/' class='form-inline mb-3' method="GET">
+        <button class='btn btn-success'>go to Homepage</button></form>
+
     {% for i in range(product_list|length) %}
     <a href='/reviews/{{i}}'>
-    <div class='row item-align-center my-5 p-3 border bg-light'>
+    <div class='row justify-content-center my-5 p-3 border bg-light'>
 
-        <div class='col-lg-4 align-self-center'>
+        <div class='col-lg-4 p-3'>
             <img src='{{product_list[i]["img"]}}' class='img-fluid'>
         </div>
         
 
-        <div class='col-8 align-self-center'>
-            <h4>{{product_list[i]['name']}}</h4>
+        <div class='col-lg-6  p-3'>
+            <h4 class='text-bold mb-3'>{{product_list[i]['name']}}</h4>
             <h4>Rating : {{product_list[i]['rating']}}</h4>
         </div>
     

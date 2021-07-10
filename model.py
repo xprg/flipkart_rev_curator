@@ -1,13 +1,9 @@
 import pandas as pd
 import numpy as np
-import re
 from keras.layers import LSTM,Dense,Dropout,Input,Embedding
 import pickle
-
 from keras.models import Model
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.utils import to_categorical
+
 
 with open('static\embedd_matrix.npy','rb') as f:
     embedd_matrix=np.load(f)

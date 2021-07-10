@@ -3,8 +3,6 @@ import numpy as np
 from types import MethodType
 from flask import Flask,request,render_template
 from requests.api import post
-import model
-import preprocess
 import scrape
 import ranker
 
@@ -21,21 +19,26 @@ def homepage():
 
 
 curr_product_list=0
-@app.route('/products',methods=["POST"])
-
+@app.route('/products',methods=["POST","GET"])
 
 def get_product_list():
-    query=str(request.form['query'])
-    product_list,err_msg=scrape.get_product_details(query)
+    if request.method=='POST':
+        query=str(request.form['query'])
+        product_list,err_msg=scrape.get_product_details(query)
 
-    if err_msg!="":
-        return "Oops Error : "+err_msg
+        if err_msg!="":
+            return "Oops Error : "+err_msg
 
-    global curr_product_list
-    curr_product_list=product_list
+        global curr_product_list
+        curr_product_list=product_list
+        print(curr_product_list[2])
         
+    
 
-    return render_template('products.html',product_list=product_list)
+    return render_template('products.html',product_list=curr_product_list)
+
+
+
 
 
 curr_df=0
@@ -55,19 +58,21 @@ def show_reviews(num):
     curr_df=df
     review_sentiment=df[['body','sentiment']].values.tolist()    
   
-    return render_template('reviews.html',product=single_product_details,review_sentiment=review_sentiment,criteria='default')
+    return render_template('reviews.html',product=single_product_details,review_sentiment=review_sentiment,criteria='default',num=num)
+
+
 
 
 @app.route('/reviews/<int:num>/<criteria>')
 
 def sort_df(num,criteria):
     
-    df=curr_df.sort_values(by=criteria,ascending=False)
+    df=ranker.sort_according_to(curr_df,criteria)
     single_product_details=curr_product_list[num]
 
-    review_sentiment=df[['body','sentiment']].values.tolist()
+    review_sentiment=df
 
-    return render_template('reviews.html',product=single_product_details,review_sentiment=review_sentiment,criteria=criteria)
+    return render_template('reviews.html',product=single_product_details,review_sentiment=review_sentiment,criteria=criteria,num=num)
 
 
 

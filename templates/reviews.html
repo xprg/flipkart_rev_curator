@@ -2,11 +2,60 @@
 
 {% block content %}
 
-{% for r in review_sentiment %}
-<p> review :{{r[0]}}</p>
-<p>sentiment : {{r[1]}}</p>
+<h2 class='bg-dark text-center text-white p-2'>Your Reviews</h2>
+<div class='container-fluid '>
+    <form action='/' class='form-inline mb-3' method="GET">
+        <button class='btn btn-success'>go to Home</button></form>
+<div class='row'>
+   
+  <div class=' col-3 bg-light mb-3 p-1 text--md '><h4>Sort criteria :</h4></div>
+    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill '><a href='/reviews/{{num}}/default'class='text-white'>Default</a></div>
+    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill'><a href='/reviews/{{num}}/performance' class='text-white'>Performance</a></div>
+    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill' ><a href='/reviews/{{num}}/display' class='text-white'>Display</a></div>
+    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill'><a href='/reviews/{{num}}/camera' class='text-white'>Camera</a></div>
+    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill'><a href='/reviews/{{num}}/battery' class='text-white'>Battery</a></div>
+    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill'><a href='/reviews/{{num}}/cost' class='text-white'>Value</a></button></div>
+    
+     
+</div>
+    <div class='row justify-content-center'>
+    <h5 class='mb-3 text-center bg-light'>Sorted by: {{criteria}}</h5>   
 
-{% endfor%}
+        
+        <div class='col-lg-5'>
+            
+             <h4 class='bg-success text-white mb-3 p-2'>Posetive</h4>
+              {% for r in review_sentiment %}
+              {% if r[1]==true %}
+                 <div class="card mb-3 bg-light border-success rounded">
+                  <div class="card-body">
+                     {{r[0]}}
+                
+                  </div>
+                 </div>
+             {% endif %}
+           {% endfor %}   
+          </div> 
+        
+
+        <div class='col-lg-5  '>
+            <h4 class='bg-danger text-white mb-3 p-2'>Negative</h4>
+             {% for r in review_sentiment %}
+                 {% if r[1]==false %}
+                   <div class="card mb-3 bg-light border-danger rounded">
+                    <div class="card-body">
+                        {{r[0]}}
+                    </div>
+                </div>
+                {% endif %}
+        {% endfor %}   
+        </div>
+    </div>
+</div>
+
+
+
+
 
 
 {% endblock %}

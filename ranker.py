@@ -40,15 +40,17 @@ def create_dataframe(reviews):
     return df
 
 
-def sort_according_to(criteria,df):
+def sort_according_to(df,criteria):
     if criteria!='default':
         if(criteria in list(df.columns)):
             ans=df.sort_values(by=criteria,ascending=False)
-        
         else:
             ans=df
+        
+    else:
+        ans=df
     
-    return list(ans[['body','sentiment']])
+    return ans[['body','sentiment']].values.tolist()
                                                                     
         
     
@@ -75,7 +77,6 @@ def sort_according_to(criteria,df):
     
 
 
-def sort_according_to(criteria):
-    pass
+
 
     

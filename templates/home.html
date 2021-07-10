@@ -2,11 +2,43 @@
 
 {% block content %}
 
+<h2 class='text-center bg-dark text-white py-3 mb-4'><i>Flipkart Review Curator</i></h2>
+<div class='container'>
+    
+    <div class='row justify-content-center'>
 
-<form action='/products' method="POST">
-<input type="text" name='query' placeholder="Enter your mobile choice">
-<button class='btn btn-sucess'>Search</button>
-</form>
+        <div class='col-lg-6 bg-light '>
+
+            <form  class='form-inline' action='/products' method="POST">
+                <div class='mb-3'>
+                <label for='query' class='form-label'>Your Choice</label>
+                <input class='form-control' type="text" name='query' id='query' placeholder="Enter your mobile choice">
+            </div>
+                <button class='btn btn-success'>Search</button>
+                </form>
+
+                 <h4 class='mt-5 text-muted'>About us</h4>
+                <p class='mb-3 p-3'><i>Enter your choice of smartphone and  we will fetch you the top  products from Flipkart. Upon selecting one of those products we will curate the top 50 reviews and display them to you so that you can make the best purchase decisions.</i></p>
+                <p>Some examples with balanced reviews :</p>
+                <ul>
+                     <li>
+                         Samsung note
+                     </li>
+                     <li>
+                         Coolpad mega 
+                     </li>
+                     <li>
+                         itel A23
+                     </li>
+                     <li>
+                         Nokia Smartphones
+                     </li>
+                 </ul>
+        </div>
+    </div>
+</div>
+
+
 
 
 {% endblock %}
