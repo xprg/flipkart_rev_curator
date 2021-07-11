@@ -4,17 +4,28 @@
 
 <h2 class='bg-dark text-center text-white p-2'>Your Reviews</h2>
 <div class='container-fluid '>
-    <form action='/' class='form-inline mb-3' method="GET">
-        <button class='btn btn-success'>go to Home</button></form>
+    <div class='row justify-content-center mb-3 bg-light'>
+        <div class='col-lg-2 p-1 ' >
+            <img src='{{product["img"]}}' class='img-fluid'>
+        </div>
+        <div class='col-lg-6 p-1'>
+            <h4 class='text-bold p-3 bg-light  '>{{product["name"]}}</h4>
+        </div>
+    </div>
+    <form action='/' class='form-inline mb-3 mx-3' method="GET">
+        <button class='btn btn-success'>Go to Home</button></form>
+
+        <form action='/products' class='form-inline mb-3 mx-3' method="GET">
+            <button class='btn btn-success'>Back to products</button></form>
 <div class='row'>
    
-  <div class=' col-3 bg-light mb-3 p-1 text--md '><h4>Sort criteria :</h4></div>
-    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill '><a href='/reviews/{{num}}/default'class='text-white'>Default</a></div>
-    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill'><a href='/reviews/{{num}}/performance' class='text-white'>Performance</a></div>
-    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill' ><a href='/reviews/{{num}}/display' class='text-white'>Display</a></div>
-    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill'><a href='/reviews/{{num}}/camera' class='text-white'>Camera</a></div>
-    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill'><a href='/reviews/{{num}}/battery' class='text-white'>Battery</a></div>
-    <div class='col-1 mb-3 mx-3 p-1 text-center bg-primary rounded-pill'><a href='/reviews/{{num}}/cost' class='text-white'>Value</a></button></div>
+  <div class=' col-3 bg-light mb-3  '><h5>Sort criteria :</h5></div>
+    <div class='col-1 mb-3 mx-3  text-center bg-primary rounded '><a href='/reviews/{{num}}/default'class='text-white'>Default</a></div>
+    <div class='col-1 mb-3 mx-3  text-center bg-primary rounded'><a href='/reviews/{{num}}/performance' class='text-white'>Performance</a></div>
+    <div class='col-1 mb-3 mx-3  text-center bg-primary rounded' ><a href='/reviews/{{num}}/display' class='text-white'>Display</a></div>
+    <div class='col-1 mb-3 mx-3  text-center bg-primary rounded'><a href='/reviews/{{num}}/camera' class='text-white'>Camera</a></div>
+    <div class='col-1 mb-3 mx-3  text-center bg-primary rounded'><a href='/reviews/{{num}}/battery' class='text-white'>Battery</a></div>
+    <div class='col-1 mb-3 mx-3  text-center bg-primary rounded'><a href='/reviews/{{num}}/cost' class='text-white'>Value</a></button></div>
     
      
 </div>

@@ -1,8 +1,5 @@
 from bs4 import BeautifulSoup as soup
-import re
 import requests
-import csv
-import pandas as pd
 import time
 
 

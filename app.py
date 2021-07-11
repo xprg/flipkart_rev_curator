@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
-from types import MethodType
 from flask import Flask,request,render_template
-from requests.api import post
 import scrape
 import ranker
 
@@ -49,9 +47,6 @@ def show_reviews(num):
     single_product_details=curr_product_list[num]
     reviews_details=scrape.get_reviews(single_product_details)
 
-    
-    print(len(reviews_details['review_list']))
-    print(reviews_details['review_list'][-5:])
     df=ranker.create_dataframe(reviews_details['review_list'])
     
     global curr_df
